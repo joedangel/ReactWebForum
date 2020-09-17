@@ -1,6 +1,9 @@
 {
   "name": "postgres",
   "version": "1.0.0",
+  "engines": {
+	  "node": "12.18.3"
+  },
   "description": "\"learn how to use node and express with postgres\"",
   "main": "index.js",
   "scripts": {
