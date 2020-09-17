@@ -311,7 +311,7 @@ function ProfileData(props) {
 			data=data.replace("\"bio\":", "")
 			data=data.replace("\"age\":", "")
 			data=data.replace("\"birthday\":", "")
-			data=data.replace("\"curr_city\":", "")
+			data=data.replace("\"loc\":", "")
 			data=data.replace("]", "")
 			data=data.replace("\[", "")
 			data=data.replace("{", "")

@@ -1,4 +1,6 @@
 const Pool = require('pg').Pool
+// const {Pool} = require('pg')
+
 const pool = new Pool({
 	user: 'joe',
 	host: 'localhost',
@@ -6,6 +8,21 @@ const pool = new Pool({
 	password: 'root',
 	port: 5432,
 });
+// const pool = new Pool({
+// 	user: 'lsleokmzdiwesv',
+// 	host: 'ec2-107-20-15-85.compute-1.amazonaws.com',
+// 	database: 'd3f0q7uhbj51vh',
+// 	password: 'c8f05a38abdf9c0e63f809135551d0ac893b0066e730ca4f0ff6ea621bacce29',
+// 	port: 5432,
+// });
+// const pool = new Pool({
+// 	connectionString: process.env.DATABASE_URL,	
+// 	ssl: {
+// 		rejectUnauthorized: false
+// 	}
+// });
+
+// pool.connect()
 
 const getPosts = () => {
 	return new Promise(function(resolve, reject) {
@@ -13,9 +30,13 @@ const getPosts = () => {
 			if(error) {
 				reject(error)
 			}
+			if (!results) {
+				reject("no rows")
+				return
+			}
 			// resolve(results.rows.map((a) => a['post']));
 			console.log("rows:")
-			console.log(results.rows instanceof Array);
+			// console.log(results.rows instanceof Array);
 			resolve(results.rows);
 		})
 	})
@@ -29,6 +50,10 @@ const getUserPosts = (body) => {
 		pool.query('select post, link, username, date, time from posts where username = ($1)', [user], (error, results)  => {
 			if(error) {
 				reject(error)
+			}
+			if (!results) {
+				reject("no rows")
+				return
 			}
 			// resolve(results.rows.map((a) => a['post']));
 			console.log("rows:")
@@ -65,11 +90,12 @@ const addUser = (body) => {
 
 		const {username, pw} = body
 		pool.query('select username from users where username = ($1)', [username], (error, results) => {
-			if (results.rows.length > 0) {
+			if (results && results.rows.length > 0) {
 				reject("username not available")
 			} else {
 				pool.query('insert into users (username, password) values ($1, $2) returning *', [username, pw], (error, results) => {
 				if (error) {
+					console.log(error)
 					reject(error)
 				}
 				resolve('success: user added')
@@ -108,7 +134,7 @@ const updateProfile = (body) => {
 	return new Promise(function(resolve, reject) {
 
 		const {name, bio, age, bday, loc, user} = body
-		pool.query('update users set name = ($1), bio =  ($2), age = ($3), birthday = ($4), curr_city = ($5) where username = ($6)', [name, bio, age, bday, loc, user], (error, results) => {
+		pool.query('update users set name = ($1), bio =  ($2), age = ($3), birthday = ($4), loc = ($5) where username = ($6)', [name, bio, age, bday, loc, user], (error, results) => {
 			if (error) {
 				reject(error)
 			}
