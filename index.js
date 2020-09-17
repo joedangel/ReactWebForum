@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.get('/', (req, res) => {
+app.get('https://mysterious-fortress-36805.herokuapp.com/', (req, res) => {
 	posts.getPosts()
 	.then(response => {
 		console.log(response instanceof Array)
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 	})
 })
 
-app.post('/userPosts', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/userPosts', (req, res) => {
 	console.log(req.body)
 	posts.getUserPosts(req.body)
 	.then(response => {
@@ -34,7 +34,7 @@ app.post('/userPosts', (req, res) => {
 	})
 })
 
-app.post('/posts', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/posts', (req, res) => {
 	posts.createPost(req.body)
 	.then(response => {
 		res.status(200).send(response);
@@ -44,7 +44,7 @@ app.post('/posts', (req, res) => {
 	})
 })
 
-app.post('/addUser', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/addUser', (req, res) => {
 	posts.addUser(req.body)
 	.then(response => {
 		res.status(200).send(response);
@@ -54,7 +54,7 @@ app.post('/addUser', (req, res) => {
 	})
 })
 
-app.post('/signIn', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/signIn', (req, res) => {
 	posts.signIn(req.body)
 	.then(response => {
 		res.status(200).send(response);
@@ -64,7 +64,7 @@ app.post('/signIn', (req, res) => {
 	})
 })
 
-app.post('/updateProfile', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/updateProfile', (req, res) => {
 	console.log(req.body)
 	posts.updateProfile(req.body)
 	.then(response => {
@@ -75,7 +75,7 @@ app.post('/updateProfile', (req, res) => {
 	})
 })
 
-app.post('/getProfileData', (req, res) => {
+app.post('https://mysterious-fortress-36805.herokuapp.com/getProfileData', (req, res) => {
 	console.log(req.body)
 	posts.getProfileData(req.body)
 	.then(response => {
