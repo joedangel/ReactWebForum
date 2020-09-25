@@ -1,31 +1,36 @@
-const Pool = require('pg').Pool
-// const {Pool} = require('pg')
-
-const pool = new Pool({
+const { Pool } = require('pg'); 
+console.log("process.env.DATABASE_URL", process.env.DATABASE_URL)
+const env = process.env.NODE_ENV || 'development';
+console.log("env", env)
+console.log("process.env.NODE_ENV", process.env.NODE_ENV)
+let connectionString = {
 	user: 'joe',
 	host: 'localhost',
 	database: 'db1',
 	password: 'root',
 	port: 5432,
-});
-// const pool = new Pool({
-// 	user: 'lsleokmzdiwesv',
-// 	host: 'ec2-107-20-15-85.compute-1.amazonaws.com',
-// 	database: 'd3f0q7uhbj51vh',
-// 	password: 'c8f05a38abdf9c0e63f809135551d0ac893b0066e730ca4f0ff6ea621bacce29',
-// 	port: 5432,
-// });
-// const pool = new Pool({
-// 	connectionString: process.env.DATABASE_URL,	
-// 	ssl: {
-// 		rejectUnauthorized: false
-// 	}
-// });
+};
+// checking to know the environment and suitable connection string to use
+if (false && env === 'development') {
+    connectionString.database = 'db1';
+} else {
+	connectionString = {
+	connectionString: "postgres://lsleokmzdiwesv:c8f05a38abdf9c0e63f809135551d0ac893b0066e730ca4f0ff6ea621bacce29@ec2-107-20-15-85.compute-1.amazonaws.com:5432/d3f0q7uhbj51vh",
+	ssl: true
+}; };
+console.log("connectionString (hardcoded to be prod)", connectionString)
+const pool = new Pool(connectionString);
+pool.connect();
+// pool.on('connect', () => console.log('connected to db'));
 
-// pool.connect()
+//don't use this in prod for security reasons
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+
+
 
 const getPosts = () => {
 	return new Promise(function(resolve, reject) {
+		// pool.query('create table if not exists posts (post varchar(140), link varchar(90), username varchar(30), date varchar(10), time varchar(10) )')
 		pool.query('select post, link, username, date, time from posts', (error, results)  => {
 			if(error) {
 				reject(error)
@@ -47,6 +52,7 @@ const getUserPosts = (body) => {
 		const {user} = body
 		console.log(user)
 		console.log(body)
+		// pool.query('create table if not exists posts (post varchar(140), link varchar(90), username varchar(30), date varchar(10), time varchar(10) )')
 		pool.query('select post, link, username, date, time from posts where username = ($1)', [user], (error, results)  => {
 			if(error) {
 				reject(error)
@@ -75,6 +81,7 @@ const createPost = (body) => {
 			var temp = post.substring(post.indexOf("www"))
 			link = temp.substring(0, temp.indexOf(" "))
 		}
+		// pool.query('create table if not exists posts (post varchar(140), link varchar(90), username varchar(30), date varchar(10), time varchar(10) )')
 		pool.query('insert into posts (post, link, username, date, time) values ($1, $2, $3, $4, $5) returning *', [post, link, username, date, time], (error, results) => {
 			if (error) {
 				reject(error)
@@ -89,6 +96,7 @@ const addUser = (body) => {
 	return new Promise(function(resolve, reject) {
 
 		const {username, pw} = body
+		// pool.query('create table if not exists users (username varchar(30), password varchar(30), name varchar(30), bio varchar(70), age varchar(2), birthday varchar(20), loc varchar(20))')
 		pool.query('select username from users where username = ($1)', [username], (error, results) => {
 			if (results && results.rows.length > 0) {
 				reject("username not available")
@@ -110,6 +118,7 @@ const signIn = (body) => {
 	return new Promise(function(resolve, reject) {
 
 		const {username, pw} = body
+		// pool.query('create table if not exists users (username varchar(30), password varchar(30), name varchar(30), bio varchar(70), age varchar(2), birthday varchar(20), loc varchar(20))')
 		pool.query('select password from users where username = ($1)', [username], (error, results)  => {
 			if(error) {
 				reject(error)
@@ -134,6 +143,7 @@ const updateProfile = (body) => {
 	return new Promise(function(resolve, reject) {
 
 		const {name, bio, age, bday, loc, user} = body
+		// pool.query('create table if not exists users (username varchar(30), password varchar(30), name varchar(30), bio varchar(70), age varchar(2), birthday varchar(20), loc varchar(20))')
 		pool.query('update users set name = ($1), bio =  ($2), age = ($3), birthday = ($4), loc = ($5) where username = ($6)', [name, bio, age, bday, loc, user], (error, results) => {
 			if (error) {
 				reject(error)
@@ -149,7 +159,8 @@ const getProfileData = (body) => {
 
 		const {user} = body
 		console.log(user)
-		pool.query('select name, bio, age, birthday, curr_city from users where username = ($1)', [user], (error, results) => {
+		// pool.query('create table if not exists users (username varchar(30), password varchar(30), name varchar(30), bio varchar(70), age varchar(2), birthday varchar(20), loc varchar(20))')
+		pool.query('select name, bio, age, birthday, loc from users where username = ($1)', [user], (error, results) => {
 			if (error) {
 				reject(error)
 			}

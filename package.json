@@ -7,7 +7,7 @@
   "description": "\"learn how to use node and express with postgres\"",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "export NODE_ENV=production && node index.js"
   },
   "author": "joe",
   "license": "ISC",
