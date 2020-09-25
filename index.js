@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 5432 || process.env.PORT || 3001
+const port = process.env.PORT || 3001 || 5432
 
 const posts = require('./posts')
 

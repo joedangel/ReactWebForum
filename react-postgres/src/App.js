@@ -15,7 +15,8 @@ function App() {
 
 	function getPost() {
 		// fetch('http://localhost:3001')
-		fetch('https://mysterious-fortress-36805.herokuapp.com/')
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/')
+		fetch('/')
 		.then(response => {
 			var txt = response.text();
 			return txt;
@@ -43,7 +44,8 @@ function App() {
 		let date = helper.getDate();
 		let time = helper.getTime();
 		// fetch('http://localhost:3001/posts', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/posts', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/posts', {
+		fetch('/posts', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -135,7 +137,8 @@ function SignIn(props) {
 			return;
 		}
 		// fetch('http://localhost:3001/signIn', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/signIn', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/signIn', {
+		fetch('/signIn', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -196,7 +199,8 @@ function SignUp(props) {
 			return;
 		}
 		// fetch('http://localhost:3001/addUser', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/addUser', {
+		fetch('/addUser', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -244,7 +248,8 @@ function Profile(props) {
 	
 	function getPosts(user) {
 		// fetch('http://localhost:3001/userPosts', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/userPosts', {
+		fetch('/userPosts', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -300,7 +305,8 @@ function ProfileData(props) {
 	
 	function getProfileData(user) {
 		// fetch('http://localhost:3001/getProfileData', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/getProfileData', {
+		fetch('/getProfileData', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -392,7 +398,8 @@ function EditProfile(props) {
 			return;
 		}
 		// fetch('http://localhost:3001/updateProfile', {
-		fetch('https://mysterious-fortress-36805.herokuapp.com/', {
+		// fetch('https://mysterious-fortress-36805.herokuapp.com/updateProfile', {
+		fetch('/updateProfile', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
